@@ -16,6 +16,7 @@ class VisibleTodoList extends Component {
       handleEditTodoFinished,
     } = this.props
 
+    
     const filter = findKey(filters, f => f)
 
     return (

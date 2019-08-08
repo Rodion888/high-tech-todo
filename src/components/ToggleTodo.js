@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 
 class ToggleTodo extends Component {
   render() {
-    const { todo, handleToggleTodo } = this.props
+    const { todo, handleToggleTodo } = this.props;
     return (
       <input
         className="toggle"
@@ -14,4 +14,4 @@ class ToggleTodo extends Component {
   }
 }
 
-export default ToggleTodo
+export default ToggleTodo;
