@@ -1,9 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import {
   addTodo, deleteTodo, toggleTodo, clearCompleted, toggleAllTodos, changeTodo
-} from './actions';
+} from './actions/todoActions';
 import { getNewId } from './utils/utils';
 import Header from './components/Header';
 import VisibleTodoList from './components/VisibleTodoList';
@@ -30,12 +31,12 @@ class Main extends React.Component {
 
   addTodo = text => {
     const { todos, addTodo } = this.props;
-    const updatedTodos = {
+    const newTodo = {
       id: getNewId(todos),
       text,
       completed: false,
     };
-    addTodo(updatedTodos);
+    addTodo(newTodo);
   }
 
   handleFilters = activatedFilterName => {
@@ -110,13 +111,13 @@ const mapStateToProps = (state) => {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  addTodo: todo => dispatch(addTodo(todo)),
-  deleteTodo: id => dispatch(deleteTodo(id)),
-  toggleTodo: id => dispatch(toggleTodo(id)),
-  clearCompleted: () => dispatch(clearCompleted()),
-  toggleAllTodos: () => dispatch(toggleAllTodos()),
-  changeTodo: changedTodo => dispatch(changeTodo(changedTodo))
-});
+const mapDispatchToProps = dispatch => bindActionCreators({
+  addTodo,
+  deleteTodo,
+  toggleTodo,
+  clearCompleted,
+  toggleAllTodos,
+  changeTodo
+}, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

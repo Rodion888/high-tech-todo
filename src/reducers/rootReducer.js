@@ -8,13 +8,13 @@ const defaultState = {
 const rootReducer = (state = defaultState, action) => {
     switch (action.type) {
         case 'ADD_TODO':
-            return { todos: [...state.todos, action.payload] };
+            return { todos: [...state.todos, action.payload.todo] };
         case 'DELETE_TODO':
-            return { todos: state.todos.filter(t => t.id !== action.payload) };
+            return { todos: state.todos.filter(t => t.id !== action.payload.id) };
         case 'TOGGLE_TODO':
             return {
                 todos: state.todos.map(todo =>
-                    todo.id === action.payload ? { ...todo, completed: !todo.completed } : todo
+                    todo.id === action.payload.id ? { ...todo, completed: !todo.completed } : todo
                 )
             }
         case 'CLEAR_COMPLETED':
@@ -29,7 +29,7 @@ const rootReducer = (state = defaultState, action) => {
         case 'CHANGE_TODO':
             return {
                 todos: state.todos.map(
-                    todo => (todo.id !== action.payload.id ? todo : action.payload)
+                    todo => (todo.id !== action.payload.changedTodo.id ? todo : action.payload.changedTodo)
                 )
             }
         default:

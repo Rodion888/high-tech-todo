@@ -9,17 +9,23 @@ const Types = {
 
 export const addTodo = todo => ({
     type: Types.ADD_TODO,
-    payload: todo
+    payload: {
+        todo
+    }
 });
 
 export const deleteTodo = id => ({
     type: Types.DELETE_TODO,
-    payload: id
+    payload: {
+        id
+    }
 });
 
 export const toggleTodo = id => ({
     type: Types.TOGGLE_TODO,
-    payload: id
+    payload: {
+        id
+    }
 });
 
 export const clearCompleted = () => ({
@@ -32,5 +38,7 @@ export const toggleAllTodos = () => ({
 
 export const changeTodo = changedTodo => ({
     type: Types.CHANGE_TODO,
-    payload: changedTodo
+    payload: {
+        changedTodo
+    }
 });
