@@ -1,9 +1,8 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 
 class Filters extends Component {
   render() {
     const { filters, handleFilters } = this.props
-
     return (
       <ul className="filters">
         {Object.entries(filters).map(([filter, activated], index) => {
