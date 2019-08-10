@@ -1,16 +1,11 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
-import {
-  addTodo, deleteTodo, toggleTodo, clearCompleted, toggleAllTodos, changeTodo
-} from './actions/todoActions';
-import { getNewId } from './utils/utils';
-import Header from './components/Header';
-import VisibleTodoList from './components/VisibleTodoList';
-import Footer from './components/Footer';
-
-import './index.css';
+import { toggleAllTodos } from './actions/todoActions'
+import Header from './components/Header'
+import VisibleTodoList from './components/VisibleTodoList'
+import Footer from './components/Footer'
 
 // import {
 //   readTodosFromLocalStorage,
@@ -27,16 +22,6 @@ class Main extends React.Component {
         completed: false,
       },
     }
-  }
-
-  addTodo = text => {
-    const { todos, addTodo } = this.props;
-    const newTodo = {
-      id: getNewId(todos),
-      text,
-      completed: false,
-    };
-    addTodo(newTodo);
   }
 
   handleFilters = activatedFilterName => {
@@ -61,34 +46,29 @@ class Main extends React.Component {
   }
 
   render() {
-    const { filters, editing, editingId } = this.state;
-    const {
-      todos, deleteTodo, toggleTodo, clearCompleted, toggleAllTodos, changeTodo
-    } = this.props;
-    const activeTodosCount = this.activeTodosCount();
-    const todosCount = todos.length;
-    const completedTodosCount = todosCount - activeTodosCount;
+    const { filters } = this.state
+    const { todos, toggleAllTodos } = this.props
+    const activeTodosCount = this.activeTodosCount()
+    const todosCount = todos.length
+    const completedTodosCount = todosCount - activeTodosCount
     return (
       <section className="todoapp">
-        <Header addTodo={this.addTodo} />
+        <Header />
         <section className="main">
           {todos.length ? (
-            <input
-              className="toggle-all"
-              type="checkbox"
-              onClick={() => toggleAllTodos()}
-              checked={!activeTodosCount}
-              onChange={() => { }}
-            />
+            <div>
+              <input
+                className="toggle-all"
+                type="checkbox"
+                checked={!activeTodosCount}
+                onChange={() => {}}
+              />
+              <label onClick={() => toggleAllTodos()} htmlFor="toggle-all" />
+            </div>
           ) : null}
           <VisibleTodoList
             todos={todos}
             filters={filters}
-            editing={editing}
-            editingId={editingId}
-            handleToggleTodo={todoId => toggleTodo(todoId)}
-            handleRemove={todoId => deleteTodo(todoId)}
-            handleEditTodoFinished={changedTodo => changeTodo(changedTodo)}
             handleEditTodoOnDoubleClick={this.handleEditTodoOnDoubleClick}
           />
         </section>
@@ -98,26 +78,15 @@ class Main extends React.Component {
           completedTodosCount={completedTodosCount}
           filters={this.state.filters}
           handleFilters={this.handleFilters}
-          handleClearCompleted={() => clearCompleted()}
         />
       </section>
     )
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    todos: state.todos
-  }
-}
-
-const mapDispatchToProps = dispatch => bindActionCreators({
-  addTodo,
-  deleteTodo,
-  toggleTodo,
-  clearCompleted,
-  toggleAllTodos,
-  changeTodo
-}, dispatch);
-
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+export default connect(
+  state => ({
+    todos: state.todos,
+  }),
+  dispatch => bindActionCreators({ toggleAllTodos }, dispatch)
+)(Main)

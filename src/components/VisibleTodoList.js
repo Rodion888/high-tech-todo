@@ -1,49 +1,39 @@
 import findKey from 'lodash/findKey'
-import React, { Component } from 'react'
+import React from 'react'
 import Todo from './Todo'
 
-class VisibleTodoList extends Component {
-  render() {
-    const {
-      todos,
-      filters,
-      handleToggleTodo,
-      handleEditTodoOnChange,
-      handleEditTodoOnDoubleClick,
-      handleRemove,
-      handleBlur,
-      handleEditTodoKeyPress,
-      handleEditTodoFinished,
-    } = this.props
+const VisibleTodoList = props => {
+  const {
+    todos,
+    filters,
+    handleEditTodoOnChange,
+    handleEditTodoOnDoubleClick,
+    handleBlur,
+    handleEditTodoKeyPress,
+  } = props
 
-    
-    const filter = findKey(filters, f => f)
+  const filter = findKey(filters, f => f)
 
-    return (
-      <ul className="todo-list">
-        {todos.map((todo, i) => {
-          if (filter === 'active' && todo.completed) return false
-          if (filter === 'completed' && !todo.completed) return false
+  return (
+    <ul className="todo-list">
+      {todos.map((todo, i) => {
+        if (filter === 'active' && todo.completed) return false
+        if (filter === 'completed' && !todo.completed) return false
 
-          return (
-            <Todo
-              key={i}
-              todo={todo}
-              checked={todo.completed}
-              handleToggleTodo={handleToggleTodo}
-              handleEditTodoOnChange={handleEditTodoOnChange}
-              handleEditTodoOnDoubleClick={handleEditTodoOnDoubleClick}
-              labelText={todo.text}
-              handleRemove={handleRemove}
-              handleBlur={handleBlur}
-              handleEditTodoKeyPress={handleEditTodoKeyPress}
-              handleEditTodoFinished={handleEditTodoFinished}
-            />
-          )
-        })}
-      </ul>
-    )
-  }
+        return (
+          <Todo
+            key={i}
+            todo={todo}
+            handleEditTodoOnChange={handleEditTodoOnChange}
+            handleEditTodoOnDoubleClick={handleEditTodoOnDoubleClick}
+            labelText={todo.text}
+            handleBlur={handleBlur}
+            handleEditTodoKeyPress={handleEditTodoKeyPress}
+          />
+        )
+      })}
+    </ul>
+  )
 }
 
 export default VisibleTodoList
