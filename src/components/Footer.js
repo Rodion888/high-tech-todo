@@ -16,14 +16,11 @@ const ClearCompletedButton = ({ display, clearCompleted }) => {
 }
 
 const Footer = props => {
-  const {
-    display,
-    activeTodosCount,
-    completedTodosCount,
-    filters,
-    handleFilters,
-    clearCompleted,
-  } = props
+  const { activeTodosCount, clearCompleted, todos } = props
+
+  const todosCount = todos.length
+  const completedTodosCount = todosCount - activeTodosCount
+  const display = !!todos.length
 
   if (!display) return null
 
@@ -33,7 +30,7 @@ const Footer = props => {
         <strong>{activeTodosCount}</strong>
         <span>{activeTodosCount === 1 ? ' item' : ' items'} left</span>
       </span>
-      <Filters filters={filters} handleFilters={handleFilters} />
+      <Filters />
       <ClearCompletedButton
         display={completedTodosCount}
         clearCompleted={clearCompleted}
@@ -43,6 +40,8 @@ const Footer = props => {
 }
 
 export default connect(
-  null,
+  state => ({
+    todos: state.todos,
+  }),
   dispatch => bindActionCreators({ clearCompleted }, dispatch)
 )(Footer)

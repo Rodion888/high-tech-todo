@@ -1,6 +1,12 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
-const Filters = ({ filters, handleFilters }) => {
+import { handleFilters } from '../actions/todoActions'
+
+const Filters = props => {
+  const { filters, handleFilters } = props
+
   return (
     <ul className="filters">
       {Object.entries(filters).map(([filter, activated], index) => {
@@ -19,4 +25,9 @@ const Filters = ({ filters, handleFilters }) => {
   )
 }
 
-export default Filters
+export default connect(
+  state => ({
+    filters: state.filters,
+  }),
+  dispatch => bindActionCreators({ handleFilters }, dispatch)
+)(Filters)
