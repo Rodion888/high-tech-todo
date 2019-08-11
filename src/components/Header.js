@@ -1,46 +1,43 @@
-import React, { Component } from 'react'
-import get from 'lodash/get'
+import React, { useState } from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
-class Header extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      value: '',
-    }
-  }
+import { getNewId } from '../utils/utils'
+import { addTodo } from '../actions/todoActions'
 
-  handleChange = e => {
-    const value = get(e, ['target', 'value'], '')
-    this.setState({
-      value,
-    })
-  }
+const Header = props => {
+  const [value, setValue] = useState('')
 
-  handleKeyPress = e => {
-    const { value } = this.state
-    const { addTodo } = this.props
-
+  const handleKeyPress = e => {
+    const { todos, addTodo } = props
     if (e.key === 'Enter' && value) {
-      addTodo(value)
-      this.setState({ value: '' })
+      const newTodo = {
+        id: getNewId(todos),
+        text: value,
+        completed: false,
+      }
+      addTodo(newTodo)
+      setValue('')
     }
   }
 
-  render() {
-    const { value } = this.state
-    return (
-      <header>
-        <h1>todos</h1>
-        <input
-          className="new-todo"
-          placeholder="What needs to be done?"
-          onChange={this.handleChange}
-          onKeyPress={this.handleKeyPress}
-          value={value}
-        />
-      </header>
-    )
-  }
+  return (
+    <header>
+      <h1>todos</h1>
+      <input
+        className="new-todo"
+        placeholder="What needs to be done?"
+        onChange={e => setValue(e.target.value)}
+        onKeyPress={handleKeyPress}
+        value={value}
+      />
+    </header>
+  )
 }
 
-export default Header
+export default connect(
+  state => ({
+    todos: state.todos,
+  }),
+  dispatch => bindActionCreators({ addTodo }, dispatch)
+)(Header)

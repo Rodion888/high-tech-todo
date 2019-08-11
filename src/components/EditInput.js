@@ -1,50 +1,41 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 import get from 'lodash/get'
 
-class EditInput extends Component {
-  constructor(props) {
-    super(props)
+import { changeTodo } from '../actions/todoActions'
 
-    this.state = {
-      value: get(props, 'todo.text', ''),
-    }
-  }
+const EditInput = props => {
+  const [value, setValue] = useState(get(props, 'todo.text', ''))
 
-  onChange = e => {
-    const value = get(e, 'target.value', '')
-    this.setState({ value })
-  }
-
-  onBlur = () => {
-    const { value: text } = this.state
-    const { todo, handleEditTodoFinished, resetLiClassName } = this.props
-
-    handleEditTodoFinished({
+  const onBlur = () => {
+    const { todo, changeTodo, resetLiClassName } = props
+    changeTodo({
       ...todo,
-      text,
+      text: value,
     })
-
     resetLiClassName()
   }
 
-  onKeyPress = e => {
+  const onKeyPress = e => {
     if (e.key === 'Enter') {
-      this.onBlur()
+      onBlur()
     }
   }
 
-  render() {
-    return (
-      <input
-        className="edit"
-        ref={input => input && input.focus()}
-        value={this.state.value}
-        onChange={this.onChange}
-        onBlur={this.onBlur}
-        onKeyPress={this.onKeyPress}
-      />
-    )
-  }
+  return (
+    <input
+      className="edit"
+      ref={input => input && input.focus()}
+      value={value}
+      onChange={e => setValue(e.target.value)}
+      onBlur={onBlur}
+      onKeyPress={onKeyPress}
+    />
+  )
 }
 
-export default EditInput
+export default connect(
+  null,
+  dispatch => bindActionCreators({ changeTodo }, dispatch)
+)(EditInput)

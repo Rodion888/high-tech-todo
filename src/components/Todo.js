@@ -1,80 +1,53 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect } from 'react'
 import classNames from 'classnames'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+
+import { deleteTodo } from '../actions/todoActions'
 import ToggleTodo from './ToggleTodo'
 import EditInput from './EditInput'
 
-export default class Todo extends Component {
-  constructor(props) {
-    super(props)
-    const {
-      todo: { completed },
-    } = props
+const Todo = props => {
+  const {
+    todo,
+    deleteTodo,
+    todo: { completed },
+  } = props
 
-    this.state = {
-      completed,
-      className: getLiClassName({ completed }),
-    }
+  const [className, setClassName] = useState(getLiClassName({ completed }))
+
+  useEffect(() => {
+    setClassName(getLiClassName({ completed }))
+  }, [completed])
+
+  const handleDoubleClick = () => {
+    setClassName(getLiClassName({ completed, editing: true }))
   }
 
-  static getDerivedStateFromProps(nextProps, state) {
-    const {
-      todo: { completed: nextCompleted },
-    } = nextProps
-    const prevCompleted = state.completed
-
-    if (nextCompleted !== prevCompleted) {
-      return {
-        className: getLiClassName({ completed: nextCompleted }),
-        completed: nextCompleted,
-      }
-    }
-
-    return null
+  const resetLiClassName = () => {
+    setClassName(getLiClassName({ completed }))
   }
 
-  handleDoubleClick = () => {
-    const { completed } = this.state
-    this.setState({
-      className: getLiClassName({ completed, editing: true }),
-    })
-  }
-
-  resetLiClassName = () => {
-    const { completed } = this.state
-    this.setState({
-      className: getLiClassName({ completed }),
-    })
-  }
-
-  render() {
-    const { className } = this.state
-    const {
-      todo,
-      handleToggleTodo,
-      handleRemove,
-      handleEditTodoFinished,
-    } = this.props
-
-    return (
-      <li className={className}>
-        <div className="view">
-          <ToggleTodo todo={todo} handleToggleTodo={handleToggleTodo} />
-          <label onDoubleClick={this.handleDoubleClick}>{todo.text}</label>
-          <button className="destroy" onClick={() => handleRemove(todo.id)} />
-        </div>
-        <EditInput
-          todo={todo}
-          handleEditTodoFinished={handleEditTodoFinished}
-          resetLiClassName={this.resetLiClassName}
-        />
-      </li>
-    )
-  }
+  return (
+    <li className={className}>
+      <div className="view">
+        <ToggleTodo todo={todo} />
+        <label onDoubleClick={handleDoubleClick}>{todo.text}</label>
+        <button className="destroy" onClick={() => deleteTodo(todo.id)} />
+      </div>
+      <EditInput todo={todo} resetLiClassName={resetLiClassName} />
+    </li>
+  )
 }
 
-const getLiClassName = ({ completed, editing = false }) => {
+const getLiClassName = ({ completed, editing }) => {
   return classNames({
     completed,
     editing,
   })
 }
+
+export default connect(
+  null,
+  dispatch => bindActionCreators({ deleteTodo }, dispatch)
+)(Todo)

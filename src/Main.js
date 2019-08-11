@@ -1,123 +1,46 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
-import {
-  addTodo, deleteTodo, toggleTodo, clearCompleted, toggleAllTodos, changeTodo
-} from './actions/todoActions';
-import { getNewId } from './utils/utils';
-import Header from './components/Header';
-import VisibleTodoList from './components/VisibleTodoList';
-import Footer from './components/Footer';
-
-import './index.css';
+import { toggleAllTodos } from './actions/todoActions'
+import Header from './components/Header'
+import VisibleTodoList from './components/VisibleTodoList'
+import Footer from './components/Footer'
 
 // import {
 //   readTodosFromLocalStorage,
 //   updateTodosInLocalStorage,
 // } from './utils/local-storage';
 
-class Main extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      filters: {
-        all: true,
-        active: false,
-        completed: false,
-      },
-    }
-  }
+const Main = props => {
+  const { todos, toggleAllTodos } = props
+  const activeTodosCount = todos.filter(t => !t.completed).length
 
-  addTodo = text => {
-    const { todos, addTodo } = this.props;
-    const newTodo = {
-      id: getNewId(todos),
-      text,
-      completed: false,
-    };
-    addTodo(newTodo);
-  }
-
-  handleFilters = activatedFilterName => {
-    this.setState({
-      filters: {
-        all: false,
-        active: false,
-        completed: false,
-        [activatedFilterName]: true,
-      },
-    })
-  }
-
-  activeTodosCount = () => {
-    const { todos } = this.props
-    return todos.filter(t => !t.completed).length
-  }
-
-  componentDidMount() {
-    const filter = window.location.hash.slice(2)
-    if (filter) this.handleFilters(filter)
-  }
-
-  render() {
-    const { filters, editing, editingId } = this.state;
-    const {
-      todos, deleteTodo, toggleTodo, clearCompleted, toggleAllTodos, changeTodo
-    } = this.props;
-    const activeTodosCount = this.activeTodosCount();
-    const todosCount = todos.length;
-    const completedTodosCount = todosCount - activeTodosCount;
-    return (
-      <section className="todoapp">
-        <Header addTodo={this.addTodo} />
-        <section className="main">
-          {todos.length ? (
+  return (
+    <section className="todoapp">
+      <Header />
+      <section className="main">
+        {todos.length ? (
+          <div>
             <input
               className="toggle-all"
               type="checkbox"
-              onClick={() => toggleAllTodos()}
               checked={!activeTodosCount}
-              onChange={() => { }}
+              onChange={() => {}}
             />
-          ) : null}
-          <VisibleTodoList
-            todos={todos}
-            filters={filters}
-            editing={editing}
-            editingId={editingId}
-            handleToggleTodo={todoId => toggleTodo(todoId)}
-            handleRemove={todoId => deleteTodo(todoId)}
-            handleEditTodoFinished={changedTodo => changeTodo(changedTodo)}
-            handleEditTodoOnDoubleClick={this.handleEditTodoOnDoubleClick}
-          />
-        </section>
-        <Footer
-          display={!!todos.length}
-          activeTodosCount={activeTodosCount}
-          completedTodosCount={completedTodosCount}
-          filters={this.state.filters}
-          handleFilters={this.handleFilters}
-          handleClearCompleted={() => clearCompleted()}
-        />
+            <label onClick={() => toggleAllTodos()} htmlFor="toggle-all" />
+          </div>
+        ) : null}
+        <VisibleTodoList />
       </section>
-    )
-  }
+      <Footer activeTodosCount={activeTodosCount} />
+    </section>
+  )
 }
 
-const mapStateToProps = (state) => {
-  return {
-    todos: state.todos
-  }
-}
-
-const mapDispatchToProps = dispatch => bindActionCreators({
-  addTodo,
-  deleteTodo,
-  toggleTodo,
-  clearCompleted,
-  toggleAllTodos,
-  changeTodo
-}, dispatch);
-
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+export default connect(
+  state => ({
+    todos: state.todos,
+  }),
+  dispatch => bindActionCreators({ toggleAllTodos }, dispatch)
+)(Main)

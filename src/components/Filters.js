@@ -1,25 +1,33 @@
-import React, { Component } from 'react';
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
-class Filters extends Component {
-  render() {
-    const { filters, handleFilters } = this.props
-    return (
-      <ul className="filters">
-        {Object.entries(filters).map(([filter, activated], index) => {
-          return (
-            <li key={index}>
-              <a
-                href={'#/' + (filter === 'all' ? '' : filter)}
-                className={activated ? 'selected' : ''}
-                onClick={() => handleFilters(filter)}>
-                {filter.charAt(0).toUpperCase() + filter.slice(1)}
-              </a>
-            </li>
-          )
-        })}
-      </ul>
-    )
-  }
+import { handleFilters } from '../actions/todoActions'
+
+const Filters = props => {
+  const { filters, handleFilters } = props
+
+  return (
+    <ul className="filters">
+      {Object.entries(filters).map(([filter, activated], index) => {
+        return (
+          <li key={index}>
+            <a
+              href={'#/' + (filter === 'all' ? '' : filter)}
+              className={activated ? 'selected' : ''}
+              onClick={() => handleFilters(filter)}>
+              {filter.charAt(0).toUpperCase() + filter.slice(1)}
+            </a>
+          </li>
+        )
+      })}
+    </ul>
+  )
 }
 
-export default Filters
+export default connect(
+  state => ({
+    filters: state.filters,
+  }),
+  dispatch => bindActionCreators({ handleFilters }, dispatch)
+)(Filters)

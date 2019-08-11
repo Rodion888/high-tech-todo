@@ -1,47 +1,47 @@
-import React, { Component } from 'react'
+import React from 'react'
 import Filters from './Filters'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
-class Footer extends Component {
-  render() {
-    const {
-      display,
-      activeTodosCount,
-      completedTodosCount,
-      filters,
-      handleFilters,
-      handleClearCompleted,
-    } = this.props
+import { clearCompleted } from '../actions/todoActions'
 
-    if (!display) return null
+const ClearCompletedButton = ({ display, clearCompleted }) => {
+  if (!display) return null
 
-    return (
-      <footer className="footer">
-        <span className="todo-count">
-          <strong>{activeTodosCount}</strong>
-          <span>{activeTodosCount === 1 ? ' item' : ' items'} left</span>
-        </span>
-        <Filters filters={filters} handleFilters={handleFilters} />
-        <ClearCompletedButton
-          display={completedTodosCount}
-          handleClearCompleted={handleClearCompleted}
-        />
-      </footer>
-    )
-  }
+  return (
+    <button className="clear-completed" onClick={() => clearCompleted()}>
+      Clear completed
+    </button>
+  )
 }
 
-class ClearCompletedButton extends Component {
-  render() {
-    const { display, handleClearCompleted } = this.props
+const Footer = props => {
+  const { activeTodosCount, clearCompleted, todos } = props
 
-    if (!display) return null
+  const todosCount = todos.length
+  const completedTodosCount = todosCount - activeTodosCount
+  const display = !!todos.length
 
-    return (
-      <button className="clear-completed" onClick={handleClearCompleted}>
-        Clear completed
-      </button>
-    )
-  }
+  if (!display) return null
+
+  return (
+    <footer className="footer">
+      <span className="todo-count">
+        <strong>{activeTodosCount}</strong>
+        <span>{activeTodosCount === 1 ? ' item' : ' items'} left</span>
+      </span>
+      <Filters />
+      <ClearCompletedButton
+        display={completedTodosCount}
+        clearCompleted={clearCompleted}
+      />
+    </footer>
+  )
 }
 
-export default Footer
+export default connect(
+  state => ({
+    todos: state.todos,
+  }),
+  dispatch => bindActionCreators({ clearCompleted }, dispatch)
+)(Footer)

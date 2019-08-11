@@ -1,17 +1,23 @@
-import React, { Component } from 'react'
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
-class ToggleTodo extends Component {
-  render() {
-    const { todo, handleToggleTodo } = this.props;
-    return (
-      <input
-        className="toggle"
-        type="checkbox"
-        checked={todo.completed}
-        onChange={() => handleToggleTodo(todo.id)}
-      />
-    )
-  }
+import { toggleTodo } from '../actions/todoActions'
+
+const ToggleTodo = props => {
+  const { todo, toggleTodo } = props
+  const todoId = todo.id
+  return (
+    <input
+      className="toggle"
+      type="checkbox"
+      checked={todo.completed}
+      onChange={() => toggleTodo(todoId)}
+    />
+  )
 }
 
-export default ToggleTodo;
+export default connect(
+  null,
+  dispatch => bindActionCreators({ toggleTodo }, dispatch)
+)(ToggleTodo)
