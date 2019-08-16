@@ -28,7 +28,6 @@ class Auth {
         const user = result.user
         if (user) {
           this.authenticated = true
-          console.log(this.authenticated)
           cb()
         }
       })
