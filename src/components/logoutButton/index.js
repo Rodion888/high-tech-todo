@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import auth from '../authorization/auth'
+import auth from '../Auth/index'
 
 const AppLogout = props => {
   return (

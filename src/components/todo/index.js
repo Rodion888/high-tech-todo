@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import AppLogout from '../logoutButton/index'
+import AppLogout from '../LogoutButton/index'
 import { toggleAllTodos } from '../../actions/todoActions'
 import Header from './todoComponents/Header'
 import VisibleTodoList from './todoComponents/VisibleTodoList'
