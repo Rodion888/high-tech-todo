@@ -3,7 +3,7 @@ import Filters from './Filters'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { clearCompleted } from '../actions/todoActions'
+import { clearCompleted } from '../../../actions/todoActions'
 
 const ClearCompletedButton = ({ display, clearCompleted }) => {
   if (!display) return null

@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { toggleTodo } from '../actions/todoActions'
+import { toggleTodo } from '../../../actions/todoActions'
 
 const ToggleTodo = props => {
   const { todo, toggleTodo } = props

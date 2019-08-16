@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { getNewId } from '../utils/utils'
-import { addTodo } from '../actions/todoActions'
+import { getNewId } from '../../../utils/utils'
+import { addTodo } from '../../../actions/todoActions'
 
 const Header = props => {
   const [value, setValue] = useState('')

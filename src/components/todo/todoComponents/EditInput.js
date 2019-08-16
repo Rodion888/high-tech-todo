@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import get from 'lodash/get'
 
-import { changeTodo } from '../actions/todoActions'
+import { changeTodo } from '../../../actions/todoActions'
 
 const EditInput = props => {
   const [value, setValue] = useState(get(props, 'todo.text', ''))
