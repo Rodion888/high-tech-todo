@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { handleFilters } from '../actions/todoActions'
+import { handleFilters } from '../../../actions/todoActions'
 
 const Filters = props => {
   const { filters, handleFilters } = props

@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { deleteTodo } from '../actions/todoActions'
+import { deleteTodo } from '../../../actions/todoActions'
 import ToggleTodo from './ToggleTodo'
 import EditInput from './EditInput'
 

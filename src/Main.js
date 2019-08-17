@@ -1,46 +1,20 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import { Route, Switch } from 'react-router-dom'
 
-import { toggleAllTodos } from './actions/todoActions'
-import Header from './components/Header'
-import VisibleTodoList from './components/VisibleTodoList'
-import Footer from './components/Footer'
+import { ProtectedRoute } from './protectedRoute/index'
+import LoginPage from './components/loginPage/index'
+import TodoMain from './components/todo/index'
 
-// import {
-//   readTodosFromLocalStorage,
-//   updateTodosInLocalStorage,
-// } from './utils/local-storage';
-
-const Main = props => {
-  const { todos, toggleAllTodos } = props
-  const activeTodosCount = todos.filter(t => !t.completed).length
-
+const Main = () => {
   return (
-    <section className="todoapp">
-      <Header />
-      <section className="main">
-        {todos.length ? (
-          <div>
-            <input
-              className="toggle-all"
-              type="checkbox"
-              checked={!activeTodosCount}
-              onChange={() => {}}
-            />
-            <label onClick={() => toggleAllTodos()} htmlFor="toggle-all" />
-          </div>
-        ) : null}
-        <VisibleTodoList />
-      </section>
-      <Footer activeTodosCount={activeTodosCount} />
-    </section>
+    <div>
+      <Switch>
+        <Route exact path="/" component={LoginPage} />
+        <ProtectedRoute exact path="/todo" component={TodoMain} />
+        <Route path="*" component={() => '404 NOT FOUND'} />
+      </Switch>
+    </div>
   )
 }
 
-export default connect(
-  state => ({
-    todos: state.todos,
-  }),
-  dispatch => bindActionCreators({ toggleAllTodos }, dispatch)
-)(Main)
+export default Main
