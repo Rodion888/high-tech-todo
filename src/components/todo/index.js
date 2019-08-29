@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import AppLogout from '../LogoutButton/index'
+import AppLogout from '../logoutButton/index'
 import {
   toggleAllTodos,
   addUserId,
