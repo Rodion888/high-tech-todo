@@ -1,19 +1,4 @@
-import { db, firebaseAuth, provider } from './../helpers/index'
-
-// const Types = {
-//   REMOVE_USER_ID: 'REMOVE_USER_ID',
-// }
-
-// export const checkUser = dispatch => {
-//   firebaseAuth.onAuthStateChanged(user => {
-//     if (user) {
-//       console.log('user logged in')
-//     } else {
-//       console.log('user is logged out')
-//       dispatch(removeUserId())
-//     }
-//   })
-// }
+import { db, firebaseAuth, provider } from '../firebase/index'
 
 export const loginViaGoogle = async () => {
   try {
@@ -24,7 +9,7 @@ export const loginViaGoogle = async () => {
   }
 }
 
-export const logoutDB = async () => {
+export const logoutFromApp = async () => {
   try {
     return await firebaseAuth.signOut()
   } catch (error) {
@@ -91,6 +76,20 @@ export const toggleTodoDB = async (id, todo) => {
   }
 }
 
+export const changeTodoDB = async (text, id) => {
+  const snapshot = await db
+    .collection('todos')
+    .where('id', '==', id)
+    .get()
+  return snapshot.forEach(doc => {
+    db.collection('todos')
+      .doc(doc.id)
+      .update({
+        text,
+      })
+  })
+}
+
 export const clearTodosDB = async () => {
   try {
     const snapshot = await db
@@ -107,6 +106,25 @@ export const clearTodosDB = async () => {
   }
 }
 
-// const removeUserId = () => ({
-//   type: Types.REMOVE_USER_ID,
-// })
+export const toggleAllTodosDB = async () => {
+  const snapshot = await db.collection('todos').get()
+  const todos = snapshot.docs.map(item => item.data())
+  const activeTodosCount = todos.filter(t => !t.completed).length
+  if (activeTodosCount !== 0) {
+    return snapshot.forEach(doc => {
+      db.collection('todos')
+        .doc(doc.id)
+        .update({
+          completed: true,
+        })
+    })
+  } else {
+    return snapshot.forEach(doc => {
+      db.collection('todos')
+        .doc(doc.id)
+        .update({
+          completed: false,
+        })
+    })
+  }
+}

@@ -1,4 +1,4 @@
-import { loginViaGoogle, logoutDB } from '../../api/index'
+import { loginViaGoogle, logoutFromApp } from '../../api/index'
 class Auth {
   constructor() {
     this.authenticated = false
@@ -16,7 +16,7 @@ class Auth {
   }
 
   logout(cb) {
-    logoutDB().then(() => {
+    logoutFromApp().then(() => {
       this.authenticated = false
       cb()
     })

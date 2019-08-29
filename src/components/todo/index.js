@@ -2,12 +2,11 @@ import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { getTodosDB } from '../../api/index'
 import AppLogout from '../LogoutButton/index'
 import {
   toggleAllTodos,
   addUserId,
-  todosFromFirestore,
+  getTodosFromFirestore,
 } from '../../actions/todoActions'
 import auth from '../Auth/index'
 import Header from './todoComponents/Header'
@@ -20,7 +19,7 @@ const TodoMain = props => {
     toggleAllTodos,
     history,
     addUserId,
-    todosFromFirestore,
+    getTodosFromFirestore,
   } = props
 
   useEffect(() => {
@@ -28,7 +27,7 @@ const TodoMain = props => {
     if (userId) {
       addUserId(userId)
     }
-    getTodosDB(userId).then(todos => todosFromFirestore(todos))
+    getTodosFromFirestore(userId)
   }, [])
 
   const activeTodosCount = todos.filter(t => !t.completed).length
@@ -64,10 +63,7 @@ export default connect(
   }),
   dispatch =>
     bindActionCreators(
-      { toggleAllTodos, addUserId, todosFromFirestore },
+      { toggleAllTodos, addUserId, getTodosFromFirestore },
       dispatch
     )
 )(TodoMain)
-
-// 1) запросы к базе в файл api.js
-// 2) запросы api должны быть в экшенах

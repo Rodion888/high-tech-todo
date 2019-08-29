@@ -10,7 +10,7 @@ const defaultState = {
 
 const rootReducer = (state = defaultState, action) => {
   switch (action.type) {
-    case 'TODOS_FIRESTORE':
+    case 'TODOS_FETCH':
       return {
         ...state,
         todos: action.payload.todos,
@@ -19,11 +19,6 @@ const rootReducer = (state = defaultState, action) => {
       return {
         ...state,
         userId: action.payload.userId,
-      }
-    case 'REMOVE_USER_ID':
-      return {
-        ...state,
-        userId: '',
       }
     case 'ADD_TODO':
       return {

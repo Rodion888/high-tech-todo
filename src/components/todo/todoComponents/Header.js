@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { addTodoToDB } from '../../../api/index'
 import { getNewId } from '../../../utils/utils'
 import { addTodo } from '../../../actions/todoActions'
 
@@ -17,11 +16,8 @@ const Header = props => {
         text: value,
         completed: false,
       }
-
-      addTodoToDB(newTodo, userId).then(() => {
-        addTodo(newTodo)
-        setValue('')
-      })
+      addTodo(newTodo, userId)
+      setValue('')
     }
   }
 

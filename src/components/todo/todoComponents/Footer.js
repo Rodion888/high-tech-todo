@@ -3,18 +3,13 @@ import Filters from './Filters'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { clearTodosDB } from '../../../api/index'
 import { clearCompleted } from '../../../actions/todoActions'
 
 const ClearCompletedButton = ({ display, clearCompleted }) => {
   if (!display) return null
 
-  const clearCompletedTodos = () => {
-    clearTodosDB().then(() => clearCompleted())
-  }
-
   return (
-    <button className="clear-completed" onClick={() => clearCompletedTodos()}>
+    <button className="clear-completed" onClick={() => clearCompleted()}>
       Clear completed
     </button>
   )
