@@ -10,10 +10,13 @@ const EditInput = props => {
 
   const onBlur = () => {
     const { todo, changeTodo, resetLiClassName } = props
-    changeTodo({
-      ...todo,
-      text: value,
-    })
+    changeTodo(
+      {
+        ...todo,
+        text: value,
+      },
+      todo.id
+    )
     resetLiClassName()
   }
 

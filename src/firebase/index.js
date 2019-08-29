@@ -1,6 +1,6 @@
 import firebase from 'firebase/app'
 import 'firebase/auth'
-import 'firebase/database'
+import 'firebase/firestore'
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -12,9 +12,8 @@ const firebaseConfig = {
   appId: process.env.REACT_APP_FIREBASE_APP_ID,
 }
 
-console.log(firebaseConfig)
-const crazyTodoInit = firebase.initializeApp(firebaseConfig)
-const db = firebase.database(crazyTodoInit)
+firebase.initializeApp(firebaseConfig)
+const db = firebase.firestore()
 const provider = new firebase.auth.GoogleAuthProvider()
 const providerScope = provider.addScope(
   'https://www.googleapis.com/auth/contacts.readonly'

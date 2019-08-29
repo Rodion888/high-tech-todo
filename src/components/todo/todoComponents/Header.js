@@ -9,14 +9,14 @@ const Header = props => {
   const [value, setValue] = useState('')
 
   const handleKeyPress = e => {
-    const { todos, addTodo } = props
+    const { todos, addTodo, userId } = props
     if (e.key === 'Enter' && value) {
       const newTodo = {
         id: getNewId(todos),
         text: value,
         completed: false,
       }
-      addTodo(newTodo)
+      addTodo(newTodo, userId)
       setValue('')
     }
   }
@@ -38,6 +38,7 @@ const Header = props => {
 export default connect(
   state => ({
     todos: state.todos,
+    userId: state.userId,
   }),
   dispatch => bindActionCreators({ addTodo }, dispatch)
 )(Header)

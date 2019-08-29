@@ -7,12 +7,13 @@ import { toggleTodo } from '../../../actions/todoActions'
 const ToggleTodo = props => {
   const { todo, toggleTodo } = props
   const todoId = todo.id
+
   return (
     <input
       className="toggle"
       type="checkbox"
       checked={todo.completed}
-      onChange={() => toggleTodo(todoId)}
+      onChange={() => toggleTodo(todoId, todo)}
     />
   )
 }

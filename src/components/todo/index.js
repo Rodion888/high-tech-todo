@@ -1,20 +1,35 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import AppLogout from '../LogoutButton/index'
-import { toggleAllTodos } from '../../actions/todoActions'
+import {
+  toggleAllTodos,
+  addUserId,
+  getTodosFromFirestore,
+} from '../../actions/todoActions'
+import auth from '../Auth/index'
 import Header from './todoComponents/Header'
 import VisibleTodoList from './todoComponents/VisibleTodoList'
 import Footer from './todoComponents/Footer'
 
-// import {
-//   readTodosFromLocalStorage,
-//   updateTodosInLocalStorage,
-// } from './utils/local-storage';
-
 const TodoMain = props => {
-  const { todos, toggleAllTodos, history } = props
+  const {
+    todos,
+    toggleAllTodos,
+    history,
+    addUserId,
+    getTodosFromFirestore,
+  } = props
+
+  useEffect(() => {
+    const userId = auth.getUserId()
+    if (userId) {
+      addUserId(userId)
+    }
+    getTodosFromFirestore(userId)
+  }, [])
+
   const activeTodosCount = todos.filter(t => !t.completed).length
 
   return (
@@ -46,5 +61,9 @@ export default connect(
   state => ({
     todos: state.todos,
   }),
-  dispatch => bindActionCreators({ toggleAllTodos }, dispatch)
+  dispatch =>
+    bindActionCreators(
+      { toggleAllTodos, addUserId, getTodosFromFirestore },
+      dispatch
+    )
 )(TodoMain)
