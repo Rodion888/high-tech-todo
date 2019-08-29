@@ -3,6 +3,7 @@ import classNames from 'classnames'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
+import { deleteTodoDB } from '../../../api/index'
 import { deleteTodo } from '../../../actions/todoActions'
 import ToggleTodo from './ToggleTodo'
 import EditInput from './EditInput'
@@ -28,12 +29,16 @@ const Todo = props => {
     setClassName(getLiClassName({ completed }))
   }
 
+  const removeTodo = id => {
+    deleteTodoDB(id).then(() => deleteTodo(id))
+  }
+
   return (
     <li className={className}>
       <div className="view">
         <ToggleTodo todo={todo} />
         <label onDoubleClick={handleDoubleClick}>{todo.text}</label>
-        <button className="destroy" onClick={() => deleteTodo(todo.id)} />
+        <button className="destroy" onClick={() => removeTodo(todo.id)} />
       </div>
       <EditInput todo={todo} resetLiClassName={resetLiClassName} />
     </li>

@@ -5,10 +5,26 @@ const defaultState = {
     active: false,
     completed: false,
   },
+  userId: '',
 }
 
 const rootReducer = (state = defaultState, action) => {
   switch (action.type) {
+    case 'TODOS_FIRESTORE':
+      return {
+        ...state,
+        todos: action.payload.todos,
+      }
+    case 'ADD_USER_ID':
+      return {
+        ...state,
+        userId: action.payload.userId,
+      }
+    case 'REMOVE_USER_ID':
+      return {
+        ...state,
+        userId: '',
+      }
     case 'ADD_TODO':
       return {
         ...state,

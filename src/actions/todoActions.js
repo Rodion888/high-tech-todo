@@ -6,6 +6,9 @@ const Types = {
   TOGGLE_ALL_TODOS: 'TOGGLE_ALL_TODOS',
   CHANGE_TODO: 'CHANGE_TODO',
   FILTER_TASKS: 'FILTER_TASKS',
+  ADD_USER_ID: 'ADD_USER_ID',
+  // REMOVE_USER_ID: 'REMOVE_USER_ID',
+  TODOS_FIRESTORE: 'TODOS_FIRESTORE',
 }
 
 export const addTodo = todo => ({
@@ -48,5 +51,23 @@ export const handleFilters = filter => ({
   type: Types.FILTER_TASKS,
   payload: {
     filter,
+  },
+})
+
+export const addUserId = userId => ({
+  type: Types.ADD_USER_ID,
+  payload: {
+    userId,
+  },
+})
+
+// export const removeUserId = () => ({
+//   type: Types.REMOVE_USER_ID,
+// })
+
+export const todosFromFirestore = todos => ({
+  type: Types.TODOS_FIRESTORE,
+  payload: {
+    todos,
   },
 })
