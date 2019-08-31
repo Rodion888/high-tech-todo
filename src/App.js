@@ -3,7 +3,6 @@ import 'todomvc-common/base.css'
 import 'todomvc-app-css/index.css'
 import { createStore, applyMiddleware } from 'redux'
 import createSagaMiddleware from 'redux-saga'
-// import thunk from 'redux-thunk'
 import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
 
