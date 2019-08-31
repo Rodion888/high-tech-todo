@@ -10,7 +10,7 @@ const defaultState = {
 
 const rootReducer = (state = defaultState, action) => {
   switch (action.type) {
-    case 'TODOS_FETCH':
+    case 'GET_TODOS':
       return {
         ...state,
         todos: action.payload.todos,
