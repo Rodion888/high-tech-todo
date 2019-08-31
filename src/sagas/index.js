@@ -1,6 +1,6 @@
 import { all, takeEvery, call, put } from 'redux-saga/effects'
 
-import { getTodosFromFirestore } from '../actions/todoActions'
+import { putTodos } from '../actions/todoActions'
 import {
   getTodosDB,
   addTodoToDB,
@@ -13,7 +13,7 @@ import {
 
 export default function* rootSaga() {
   yield all([
-    fetchTasks(),
+    fetchTodos(),
     addTodo(),
     deleteTodo(),
     clearCompleted(),
@@ -23,7 +23,7 @@ export default function* rootSaga() {
   ])
 }
 
-function* fetchTasks() {
+function* fetchTodos() {
   yield takeEvery('FETCH_TODOS', fetchTodosAsync)
 }
 
@@ -31,7 +31,7 @@ function* fetchTodosAsync(action) {
   try {
     const userId = action.payload.userId
     const todos = yield call(() => getTodosDB(userId))
-    yield put(getTodosFromFirestore(todos))
+    yield put(putTodos(todos))
   } catch (e) {
     console.log(e)
   }

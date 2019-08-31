@@ -1,7 +1,7 @@
 const Types = {
   ADD_USER_ID: 'ADD_USER_ID',
   FETCH_TODOS: 'FETCH_TODOS',
-  GET_TODOS: 'GET_TODOS',
+  PUT_TODOS: 'PUT_TODOS',
   ADD_TODO: 'ADD_TODO',
   DELETE_TODO: 'DELETE_TODO',
   CLEAR_COMPLETED: 'CLEAR_COMPLETED',
@@ -25,8 +25,8 @@ export const fetchTodos = userId => ({
   },
 })
 
-export const getTodosFromFirestore = todos => ({
-  type: Types.GET_TODOS,
+export const putTodos = todos => ({
+  type: Types.PUT_TODOS,
   payload: {
     todos,
   },
