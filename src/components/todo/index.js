@@ -35,7 +35,7 @@ const TodoMain = props => {
   }, [])
 
   const activeTodosCount = todos.filter(t => !t.completed).length
-  console.log('rerror', error)
+
   return (
     <div>
       <section className="todoapp">
