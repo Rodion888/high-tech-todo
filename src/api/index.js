@@ -18,62 +18,46 @@ export const logoutFromApp = async () => {
 }
 
 export const getTodosDB = async userId => {
-  try {
-    const snapshot = await db
-      .collection('todos')
-      .where('userId', '==', userId)
-      .get()
-    return snapshot.docs.map(item => item.data())
-  } catch (err) {
-    console.error(err.message)
-  }
+  const snapshot = await db
+    .collection('todos')
+    .where('userId', '==', userId)
+    .get()
+  return snapshot.docs.map(item => item.data())
 }
 
 export const addTodoToDB = async (todo, userId) => {
-  try {
-    await db.collection('todos').add({
-      id: todo.id,
-      text: todo.text,
-      completed: false,
-      userId,
-    })
-  } catch (err) {
-    console.error(err.message)
-  }
+  await db.collection('todos').add({
+    id: todo.id,
+    text: todo.text,
+    completed: false,
+    userId,
+  })
 }
 
 export const deleteTodoDB = async id => {
-  try {
-    const snapshot = await db
-      .collection('todos')
-      .where('id', '==', id)
-      .get()
-    snapshot.forEach(doc => {
-      db.collection('todos')
-        .doc(doc.id)
-        .delete()
-    })
-  } catch (err) {
-    console.error(err.message)
-  }
+  const snapshot = await db
+    .collection('todos')
+    .where('id', '==', id)
+    .get()
+  snapshot.forEach(doc => {
+    db.collection('todos')
+      .doc(doc.id)
+      .delete()
+  })
 }
 
 export const toggleTodoDB = async (id, todo) => {
-  try {
-    const snapshot = await db
-      .collection('todos')
-      .where('id', '==', id)
-      .get()
-    return snapshot.forEach(doc => {
-      db.collection('todos')
-        .doc(doc.id)
-        .update({
-          completed: !todo.completed,
-        })
-    })
-  } catch (err) {
-    console.error(err.message)
-  }
+  const snapshot = await db
+    .collection('todos')
+    .where('id', '==', id)
+    .get()
+  return snapshot.forEach(doc => {
+    db.collection('todos')
+      .doc(doc.id)
+      .update({
+        completed: !todo.completed,
+      })
+  })
 }
 
 export const changeTodoDB = async (text, id) => {
@@ -91,19 +75,15 @@ export const changeTodoDB = async (text, id) => {
 }
 
 export const clearTodosDB = async () => {
-  try {
-    const snapshot = await db
-      .collection('todos')
-      .where('completed', '==', true)
-      .get()
-    return snapshot.forEach(doc => {
-      db.collection('todos')
-        .doc(doc.id)
-        .delete()
-    })
-  } catch (err) {
-    console.error(err.message)
-  }
+  const snapshot = await db
+    .collection('todos')
+    .where('completed', '==', true)
+    .get()
+  return snapshot.forEach(doc => {
+    db.collection('todos')
+      .doc(doc.id)
+      .delete()
+  })
 }
 
 export const toggleAllTodosDB = async () => {

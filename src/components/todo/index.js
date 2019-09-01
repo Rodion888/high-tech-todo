@@ -6,7 +6,7 @@ import AppLogout from '../logoutButton/index'
 import {
   toggleAllTodos,
   addUserId,
-  getTodosFromFirestore,
+  fetchTodos,
 } from '../../actions/todoActions'
 import auth from '../Auth/index'
 import Header from './todoComponents/Header'
@@ -14,20 +14,14 @@ import VisibleTodoList from './todoComponents/VisibleTodoList'
 import Footer from './todoComponents/Footer'
 
 const TodoMain = props => {
-  const {
-    todos,
-    toggleAllTodos,
-    history,
-    addUserId,
-    getTodosFromFirestore,
-  } = props
+  const { todos, toggleAllTodos, history, addUserId, fetchTodos } = props
 
   useEffect(() => {
     const userId = auth.getUserId()
     if (userId) {
       addUserId(userId)
+      fetchTodos(userId)
     }
-    getTodosFromFirestore(userId)
   }, [])
 
   const activeTodosCount = todos.filter(t => !t.completed).length
@@ -62,8 +56,5 @@ export default connect(
     todos: state.todos,
   }),
   dispatch =>
-    bindActionCreators(
-      { toggleAllTodos, addUserId, getTodosFromFirestore },
-      dispatch
-    )
+    bindActionCreators({ toggleAllTodos, addUserId, fetchTodos }, dispatch)
 )(TodoMain)
