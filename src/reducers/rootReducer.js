@@ -6,10 +6,21 @@ const defaultState = {
     completed: false,
   },
   userId: '',
+  error: ['add Todo Error'],
 }
 
 const rootReducer = (state = defaultState, action) => {
   switch (action.type) {
+    case 'TODOS_ERROR':
+      return {
+        ...state,
+        error: state.error.push(action.payload.error),
+      }
+    case 'REMOVE_ERROR':
+      return {
+        ...state,
+        error: [],
+      }
     case 'PUT_TODOS':
       return {
         ...state,

@@ -9,6 +9,8 @@ const Types = {
   TOGGLE_TODO: 'TOGGLE_TODO',
   TOGGLE_ALL_TODOS: 'TOGGLE_ALL_TODOS',
   FILTER_TASKS: 'FILTER_TASKS',
+  TODOS_ERROR: 'TODOS_ERROR',
+  REMOVE_ERROR: 'REMOVE_ERROR',
 }
 
 export const addUserId = userId => ({
@@ -76,4 +78,15 @@ export const handleFilters = filter => ({
   payload: {
     filter,
   },
+})
+
+export const todosError = error => ({
+  type: Types.TODOS_ERROR,
+  payload: {
+    error,
+  },
+})
+
+export const removeError = () => ({
+  type: Types.REMOVE_ERROR,
 })
