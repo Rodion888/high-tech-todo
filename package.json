@@ -3,21 +3,28 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@redux-saga/types": "^1.1.0",
     "@sentry/browser": "^5.6.3",
+    "@types/classnames": "^2.2.9",
+    "@types/lodash": "^4.14.138",
+    "@types/react-dom": "^16.9.0",
+    "@types/react-redux": "^7.1.2",
+    "@types/react-router-dom": "^4.3.5",
     "axios": "^0.18.0",
     "classnames": "^2.2.6",
     "firebase": "^6.3.5",
     "lodash": "^4.17.10",
     "node-sass": "^4.12.0",
     "prop-types": "^15.7.2",
+    "raven-js": "^3.27.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-redux": "^7.1.0",
     "react-router-dom": "^5.0.1",
-    "react-scripts": "1.1.4",
+    "react-scripts": "^3.1.1",
     "redux": "^4.0.4",
     "redux-logger": "^3.0.6",
-    "redux-saga": "^1.0.5",
+    "redux-saga": "^1.1.1",
     "redux-thunk": "^2.3.0",
     "styled-components": "^4.3.2",
     "todomvc-app-css": "^2.2.0",
@@ -28,5 +35,25 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "@babel/preset-typescript": "^7.6.0",
+    "@types/react": "^16.9.2",
+    "@types/styled-components": "^4.1.19",
+    "source-map-loader": "^0.2.4",
+    "ts-node": "^8.4.1",
+    "typescript": "^3.6.2"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }

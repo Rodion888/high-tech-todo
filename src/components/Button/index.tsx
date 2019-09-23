@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const Button = props => {
+const Button = (props: any) => {
   return (
     <MainDiv>
       <GoogleBtn>

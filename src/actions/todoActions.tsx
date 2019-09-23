@@ -1,3 +1,5 @@
+import { Todo, UserId, Todos, Filters } from '../types'
+
 const Types = {
   ADD_USER_ID: 'ADD_USER_ID',
   FETCH_TODOS: 'FETCH_TODOS',
@@ -13,28 +15,28 @@ const Types = {
   REMOVE_ERROR: 'REMOVE_ERROR',
 }
 
-export const addUserId = userId => ({
+export const addUserId = (userId: UserId) => ({
   type: Types.ADD_USER_ID,
   payload: {
     userId,
   },
 })
 
-export const fetchTodos = userId => ({
+export const fetchTodos = (userId: UserId) => ({
   type: Types.FETCH_TODOS,
   payload: {
     userId,
   },
 })
 
-export const putTodos = todos => ({
+export const putTodos = (todos: Todos) => ({
   type: Types.PUT_TODOS,
   payload: {
     todos,
   },
 })
 
-export const addTodo = (todo, userId) => ({
+export const addTodo = (todo: Todo, userId: UserId) => ({
   type: Types.ADD_TODO,
   payload: {
     todo,
@@ -42,7 +44,7 @@ export const addTodo = (todo, userId) => ({
   userId,
 })
 
-export const deleteTodo = id => ({
+export const deleteTodo = (id: Todo) => ({
   type: Types.DELETE_TODO,
   payload: {
     id,
@@ -53,7 +55,7 @@ export const clearCompleted = () => ({
   type: Types.CLEAR_COMPLETED,
 })
 
-export const changeTodo = (changedTodo, id) => ({
+export const changeTodo = (changedTodo: Todo, id: Todo) => ({
   type: Types.CHANGE_TODO,
   payload: {
     changedTodo,
@@ -61,7 +63,7 @@ export const changeTodo = (changedTodo, id) => ({
   id,
 })
 
-export const toggleTodo = (id, todo) => ({
+export const toggleTodo = (id: Todo, todo: Todo) => ({
   type: Types.TOGGLE_TODO,
   payload: {
     id,
@@ -73,14 +75,14 @@ export const toggleAllTodos = () => ({
   type: Types.TOGGLE_ALL_TODOS,
 })
 
-export const handleFilters = filter => ({
+export const handleFilters = (filter: Filters) => ({
   type: Types.FILTER_TASKS,
   payload: {
     filter,
   },
 })
 
-export const todosError = error => ({
+export const todosError = (error: string) => ({
   type: Types.TODOS_ERROR,
   payload: {
     error,

@@ -1,4 +1,13 @@
-const defaultState = {
+import { Todo, Todos, Filters, UserId } from '../types'
+
+interface Props {
+  todos: Todos
+  filters: Filters
+  userId: UserId
+  errors: any
+}
+
+const defaultState: Props = {
   todos: [],
   filters: {
     all: true,
@@ -6,20 +15,21 @@ const defaultState = {
     completed: false,
   },
   userId: '',
-  error: ['add Todo Error'],
+  errors: [],
 }
 
-const rootReducer = (state = defaultState, action) => {
+const rootReducer = (state = defaultState, action: any) => {
   switch (action.type) {
     case 'TODOS_ERROR':
+      const error: string = action.payload.error
       return {
         ...state,
-        error: state.error.push(action.payload.error),
+        errors: state.errors.push(error),
       }
     case 'REMOVE_ERROR':
       return {
         ...state,
-        error: [],
+        errors: [],
       }
     case 'PUT_TODOS':
       return {
@@ -39,36 +49,43 @@ const rootReducer = (state = defaultState, action) => {
     case 'DELETE_TODO':
       return {
         ...state,
-        todos: state.todos.filter(t => t.id !== action.payload.id),
+        todos: state.todos.filter((t: Todo) => t.id !== action.payload.id),
       }
     case 'TOGGLE_TODO':
       return {
         ...state,
-        todos: state.todos.map(todo =>
+        todos: state.todos.map((todo: Todo) =>
           todo.id === action.payload.id
             ? { ...todo, completed: !todo.completed }
             : todo
         ),
       }
     case 'CLEAR_COMPLETED':
-      return { ...state, todos: state.todos.filter(t => !t.completed) }
+      return { ...state, todos: state.todos.filter((t: Todo) => !t.completed) }
     case 'TOGGLE_ALL_TODOS':
-      const activeTodosCount = state.todos.filter(t => !t.completed).length
+      const activeTodosCount = state.todos.filter((t: Todo) => !t.completed)
+        .length
       if (activeTodosCount !== 0) {
         return {
           ...state,
-          todos: state.todos.map(todo => ({ ...todo, completed: true })),
+          todos: state.todos.map((todo: Todo) => ({
+            ...todo,
+            completed: true,
+          })),
         }
       } else {
         return {
           ...state,
-          todos: state.todos.map(todo => ({ ...todo, completed: false })),
+          todos: state.todos.map((todo: Todo) => ({
+            ...todo,
+            completed: false,
+          })),
         }
       }
     case 'CHANGE_TODO':
       return {
         ...state,
-        todos: state.todos.map(todo =>
+        todos: state.todos.map((todo: Todo) =>
           todo.id !== action.payload.changedTodo.id
             ? todo
             : action.payload.changedTodo

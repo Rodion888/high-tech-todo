@@ -1,11 +1,22 @@
 import React from 'react'
-import Filters from './Filters'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
+import FiltersComponent from './FiltersComponent'
 import { clearCompleted } from '../../../actions/todoActions'
+import { Todos } from '../../../types'
 
-const ClearCompletedButton = ({ display, clearCompleted }) => {
+interface Props {
+  display: boolean
+  clearCompleted: any
+  activeTodosCount: number
+  todos: Todos
+}
+
+const ClearCompletedButton: React.FC<any> = ({
+  display,
+  clearCompleted,
+}: Props) => {
   if (!display) return null
 
   return (
@@ -15,7 +26,7 @@ const ClearCompletedButton = ({ display, clearCompleted }) => {
   )
 }
 
-const Footer = props => {
+const Footer: React.FC<any> = (props: Props) => {
   const { activeTodosCount, clearCompleted, todos } = props
 
   const todosCount = todos.length
@@ -30,7 +41,7 @@ const Footer = props => {
         <strong>{activeTodosCount}</strong>
         <span>{activeTodosCount === 1 ? ' item' : ' items'} left</span>
       </span>
-      <Filters />
+      <FiltersComponent />
       <ClearCompletedButton
         display={completedTodosCount}
         clearCompleted={clearCompleted}
@@ -40,7 +51,7 @@ const Footer = props => {
 }
 
 export default connect(
-  state => ({
+  (state: any) => ({
     todos: state.todos,
   }),
   dispatch => bindActionCreators({ clearCompleted }, dispatch)

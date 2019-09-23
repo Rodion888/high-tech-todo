@@ -14,16 +14,26 @@ import auth from '../Auth/index'
 import Header from './todoComponents/Header'
 import VisibleTodoList from './todoComponents/VisibleTodoList'
 import Footer from './todoComponents/Footer'
+import { Todos } from '../../types/index'
 
-const TodoMain = props => {
+interface Props {
+  todos: Todos
+  toggleAllTodos: any
+  history: any
+  addUserId: any
+  fetchTodos: any
+  errors?: any
+  removeError: any
+}
+
+const TodoMain: React.FC<Props> = props => {
   const {
     todos,
     toggleAllTodos,
     history,
     addUserId,
     fetchTodos,
-    error,
-    removeError,
+    errors,
   } = props
 
   useEffect(() => {
@@ -56,9 +66,9 @@ const TodoMain = props => {
         </section>
         <Footer activeTodosCount={activeTodosCount} />
       </section>
-      {error.length ? (
+      {errors.length ? (
         <Div>
-          <ErrorDiv>{error[0]}</ErrorDiv>
+          <ErrorDiv>{errors[0]}</ErrorDiv>
           <div onClick={() => removeError()}>
             <Button history={history} text={'Ok'} />
           </div>
@@ -77,9 +87,9 @@ const TodoMain = props => {
 }
 
 export default connect(
-  state => ({
+  (state: any) => ({
     todos: state.todos,
-    error: state.error,
+    errors: state.errors,
   }),
   dispatch =>
     bindActionCreators(

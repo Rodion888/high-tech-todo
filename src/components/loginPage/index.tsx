@@ -2,11 +2,13 @@ import React from 'react'
 import styled from 'styled-components'
 import auth from '../Auth/index'
 
-import GoogleButton from '../loginPage/GoogleButton/index'
+import Invite from './invite'
+import GoogleButton from './GoogleButton/index'
 
-const LoginPage = props => {
+const LoginPage = (props: any) => {
   return (
     <MainDiv>
+      <Invite title="Welcome!" paragraph="To this example"></Invite>
       <div
         onClick={() =>
           auth.login(() => {

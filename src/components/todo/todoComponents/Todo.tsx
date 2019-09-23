@@ -6,8 +6,15 @@ import { bindActionCreators } from 'redux'
 import { deleteTodo } from '../../../actions/todoActions'
 import ToggleTodo from './ToggleTodo'
 import EditInput from './EditInput'
+import { Todo } from '../../../types'
 
-const Todo = props => {
+interface Props {
+  todo: Todo
+  deleteTodo: any
+  completed: boolean
+}
+
+const TodoComponent: React.FC<any> = (props: Props) => {
   const {
     todo,
     deleteTodo,
@@ -40,7 +47,7 @@ const Todo = props => {
   )
 }
 
-const getLiClassName = ({ completed, editing }) => {
+const getLiClassName = ({ completed, editing }: any) => {
   return classNames({
     completed,
     editing,
@@ -50,4 +57,4 @@ const getLiClassName = ({ completed, editing }) => {
 export default connect(
   null,
   dispatch => bindActionCreators({ deleteTodo }, dispatch)
-)(Todo)
+)(TodoComponent)

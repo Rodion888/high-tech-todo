@@ -4,11 +4,18 @@ import { bindActionCreators } from 'redux'
 
 import { getNewId } from '../../../utils/utils'
 import { addTodo } from '../../../actions/todoActions'
+import { Todos, UserId } from '../../../types'
 
-const Header = props => {
+interface Props {
+  todos: Todos
+  addTodo: any
+  userId: UserId
+}
+
+const Header: React.FC<any> = (props: Props) => {
   const [value, setValue] = useState('')
 
-  const handleKeyPress = e => {
+  const handleKeyPress = (e: any) => {
     const { todos, addTodo, userId } = props
     if (e.key === 'Enter' && value) {
       const newTodo = {
@@ -36,7 +43,7 @@ const Header = props => {
 }
 
 export default connect(
-  state => ({
+  (state: any) => ({
     todos: state.todos,
     userId: state.userId,
   }),
