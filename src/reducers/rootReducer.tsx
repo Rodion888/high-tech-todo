@@ -1,6 +1,13 @@
-import { Todo } from '../types'
+import { Todo, Todos, Filters, UserId } from '../types'
 
-const defaultState = {
+interface Props {
+  todos: Todos
+  filters: Filters
+  userId: UserId
+  errors: any
+}
+
+const defaultState: Props = {
   todos: [],
   filters: {
     all: true,
@@ -8,10 +15,22 @@ const defaultState = {
     completed: false,
   },
   userId: '',
+  errors: [],
 }
 
 const rootReducer = (state = defaultState, action: any) => {
   switch (action.type) {
+    case 'TODOS_ERROR':
+      const error: string = action.payload.error
+      return {
+        ...state,
+        errors: state.errors.push(error),
+      }
+    case 'REMOVE_ERROR':
+      return {
+        ...state,
+        errors: [],
+      }
     case 'PUT_TODOS':
       return {
         ...state,

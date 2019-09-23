@@ -1,6 +1,6 @@
 import { all, takeEvery, call, put } from 'redux-saga/effects'
 
-import { putTodos } from '../actions/todoActions'
+import { putTodos, todosError } from '../actions/todoActions'
 import {
   getTodosDB,
   addTodoToDB,
@@ -33,7 +33,7 @@ function* fetchTodosAsync(action: any) {
     const todos = yield call(() => getTodosDB(userId))
     yield put(putTodos(todos))
   } catch (e) {
-    console.log(e)
+    yield put(todosError('fetch Todo Error'))
   }
 }
 
@@ -47,7 +47,7 @@ function* addTodoSaga(action: any) {
     const todo = action.payload.todo
     yield call(() => addTodoToDB(todo, userId))
   } catch (e) {
-    console.log(e)
+    yield put(todosError('add Todo Error'))
   }
 }
 
@@ -60,7 +60,7 @@ function* deleteTodoSaga(action: any) {
     const { id } = action.payload
     yield call(() => deleteTodoDB(id))
   } catch (e) {
-    console.log(e)
+    yield put(todosError('delete Todo Error'))
   }
 }
 
@@ -72,7 +72,7 @@ function* clearCompletedSaga() {
   try {
     yield call(() => clearTodosDB())
   } catch (e) {
-    console.log(e)
+    yield put(todosError('clear Completed Error'))
   }
 }
 
@@ -86,7 +86,7 @@ function* changeTodoSaga(action: any) {
     const { id } = action
     yield call(() => changeTodoDB(text, id))
   } catch (e) {
-    console.log(e)
+    yield put(todosError('change Todo Error'))
   }
 }
 
@@ -100,7 +100,7 @@ function* toggleTodoSaga(action: any) {
     const { todo } = action
     yield call(() => toggleTodoDB(id, todo))
   } catch (e) {
-    console.log(e)
+    yield put(todosError('toggle Todo Error'))
   }
 }
 
@@ -112,6 +112,6 @@ function* toggleAllTodosSaga() {
   try {
     yield call(() => toggleAllTodosDB())
   } catch (e) {
-    console.log(e)
+    yield put(todosError('toggle All Todos Error'))
   }
 }

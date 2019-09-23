@@ -1,26 +1,19 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import auth from '../Auth/index'
-
-const AppLogout = (props: any) => {
+const Button = (props: any) => {
   return (
     <MainDiv>
-      <GoogleBtn
-        onClick={() => {
-          auth.logout(() => {
-            props.history.push('/')
-          })
-        }}>
+      <GoogleBtn>
         <ButtonText>
-          <b>Logout</b>
+          <b>{props.text}</b>
         </ButtonText>
       </GoogleBtn>
     </MainDiv>
   )
 }
 
-export default AppLogout
+export default Button
 
 const GoogleBtn = styled.div`
   margin: 25px;

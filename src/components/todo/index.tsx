@@ -1,12 +1,14 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import styled from 'styled-components'
 
-import AppLogout from '../logoutButton/index'
+import Button from '../Button/index'
 import {
   toggleAllTodos,
   addUserId,
   fetchTodos,
+  removeError,
 } from '../../actions/todoActions'
 import auth from '../Auth/index'
 import Header from './todoComponents/Header'
@@ -20,10 +22,19 @@ interface Props {
   history: any
   addUserId: any
   fetchTodos: any
+  errors?: any
+  removeError: any
 }
 
 const TodoMain: React.FC<Props> = props => {
-  const { todos, toggleAllTodos, history, addUserId, fetchTodos } = props
+  const {
+    todos,
+    toggleAllTodos,
+    history,
+    addUserId,
+    fetchTodos,
+    errors,
+  } = props
 
   useEffect(() => {
     const userId = auth.getUserId()
@@ -55,7 +66,22 @@ const TodoMain: React.FC<Props> = props => {
         </section>
         <Footer activeTodosCount={activeTodosCount} />
       </section>
-      <AppLogout history={history} />
+      {errors.length ? (
+        <Div>
+          <ErrorDiv>{errors[0]}</ErrorDiv>
+          <div onClick={() => removeError()}>
+            <Button history={history} text={'Ok'} />
+          </div>
+        </Div>
+      ) : null}
+      <div
+        onClick={() => {
+          auth.logout(() => {
+            props.history.push('/')
+          })
+        }}>
+        <Button history={history} text={'Logout'} />
+      </div>
     </div>
   )
 }
@@ -63,7 +89,30 @@ const TodoMain: React.FC<Props> = props => {
 export default connect(
   (state: any) => ({
     todos: state.todos,
+    errors: state.errors,
   }),
   dispatch =>
-    bindActionCreators({ toggleAllTodos, addUserId, fetchTodos }, dispatch)
+    bindActionCreators(
+      { toggleAllTodos, addUserId, fetchTodos, removeError },
+      dispatch
+    )
 )(TodoMain)
+
+const ErrorDiv = styled.div`
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  font-size: medium;
+  font-weight: 600;
+  color: red;
+`
+
+const Div = styled.div`
+  height: 86px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  border-radius: 10px;
+  border: 1px solid #4d4d4d;
+`
