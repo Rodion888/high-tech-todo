@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 import auth from '../Auth/index'
 
-const AppLogout = props => {
+const AppLogout = (props: any) => {
   return (
     <MainDiv>
       <GoogleBtn

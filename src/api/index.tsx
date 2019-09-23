@@ -1,4 +1,5 @@
-import { db, firebaseAuth, provider } from '../firebase/index'
+import { db, firebaseAuth, provider } from '../firebase'
+import { Todo, UserId } from '../types'
 
 export const loginViaGoogle = async () => {
   try {
@@ -17,15 +18,15 @@ export const logoutFromApp = async () => {
   }
 }
 
-export const getTodosDB = async userId => {
+export const getTodosDB = async (userId: UserId) => {
   const snapshot = await db
     .collection('todos')
     .where('userId', '==', userId)
     .get()
-  return snapshot.docs.map(item => item.data())
+  return snapshot.docs.map((item: { data: () => void }) => item.data())
 }
 
-export const addTodoToDB = async (todo, userId) => {
+export const addTodoToDB = async (todo: Todo, userId: UserId) => {
   await db.collection('todos').add({
     id: todo.id,
     text: todo.text,
@@ -34,24 +35,24 @@ export const addTodoToDB = async (todo, userId) => {
   })
 }
 
-export const deleteTodoDB = async id => {
+export const deleteTodoDB = async (id: Todo) => {
   const snapshot = await db
     .collection('todos')
     .where('id', '==', id)
     .get()
-  snapshot.forEach(doc => {
+  snapshot.forEach((doc: { id: any }) => {
     db.collection('todos')
       .doc(doc.id)
       .delete()
   })
 }
 
-export const toggleTodoDB = async (id, todo) => {
+export const toggleTodoDB = async (id: Todo, todo: Todo) => {
   const snapshot = await db
     .collection('todos')
     .where('id', '==', id)
     .get()
-  return snapshot.forEach(doc => {
+  return snapshot.forEach((doc: { id: any }) => {
     db.collection('todos')
       .doc(doc.id)
       .update({
@@ -60,12 +61,12 @@ export const toggleTodoDB = async (id, todo) => {
   })
 }
 
-export const changeTodoDB = async (text, id) => {
+export const changeTodoDB = async (text: Todo, id: Todo) => {
   const snapshot = await db
     .collection('todos')
     .where('id', '==', id)
     .get()
-  return snapshot.forEach(doc => {
+  return snapshot.forEach((doc: { id: any }) => {
     db.collection('todos')
       .doc(doc.id)
       .update({
@@ -79,7 +80,7 @@ export const clearTodosDB = async () => {
     .collection('todos')
     .where('completed', '==', true)
     .get()
-  return snapshot.forEach(doc => {
+  return snapshot.forEach((doc: { id: any }) => {
     db.collection('todos')
       .doc(doc.id)
       .delete()
@@ -88,10 +89,12 @@ export const clearTodosDB = async () => {
 
 export const toggleAllTodosDB = async () => {
   const snapshot = await db.collection('todos').get()
-  const todos = snapshot.docs.map(item => item.data())
-  const activeTodosCount = todos.filter(t => !t.completed).length
+  const todos: any = snapshot.docs.map((item: { data: () => void }) =>
+    item.data()
+  )
+  const activeTodosCount = todos.filter((t: any): any => !t.completed).length
   if (activeTodosCount !== 0) {
-    return snapshot.forEach(doc => {
+    return snapshot.forEach((doc: { id: any }) => {
       db.collection('todos')
         .doc(doc.id)
         .update({
@@ -99,7 +102,7 @@ export const toggleAllTodosDB = async () => {
         })
     })
   } else {
-    return snapshot.forEach(doc => {
+    return snapshot.forEach((doc: { id: any }) => {
       db.collection('todos')
         .doc(doc.id)
         .update({

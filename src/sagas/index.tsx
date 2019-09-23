@@ -27,7 +27,7 @@ function* fetchTodos() {
   yield takeEvery('FETCH_TODOS', fetchTodosAsync)
 }
 
-function* fetchTodosAsync(action) {
+function* fetchTodosAsync(action: any) {
   try {
     const userId = action.payload.userId
     const todos = yield call(() => getTodosDB(userId))
@@ -41,7 +41,7 @@ function* addTodo() {
   yield takeEvery('ADD_TODO', addTodoSaga)
 }
 
-function* addTodoSaga(action) {
+function* addTodoSaga(action: any) {
   try {
     const { userId } = action
     const todo = action.payload.todo
@@ -55,7 +55,7 @@ function* deleteTodo() {
   yield takeEvery('DELETE_TODO', deleteTodoSaga)
 }
 
-function* deleteTodoSaga(action) {
+function* deleteTodoSaga(action: any) {
   try {
     const { id } = action.payload
     yield call(() => deleteTodoDB(id))
@@ -80,7 +80,7 @@ function* changeTodo() {
   yield takeEvery('CHANGE_TODO', changeTodoSaga)
 }
 
-function* changeTodoSaga(action) {
+function* changeTodoSaga(action: any) {
   try {
     const text = action.payload.changedTodo.text
     const { id } = action
@@ -94,7 +94,7 @@ function* toggleTodo() {
   yield takeEvery('TOGGLE_TODO', toggleTodoSaga)
 }
 
-function* toggleTodoSaga(action) {
+function* toggleTodoSaga(action: any) {
   try {
     const id = action.payload.id
     const { todo } = action

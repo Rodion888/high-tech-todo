@@ -4,8 +4,15 @@ import { bindActionCreators } from 'redux'
 import get from 'lodash/get'
 
 import { changeTodo } from '../../../actions/todoActions'
+import { Todo } from '../../../types'
 
-const EditInput = props => {
+interface Props {
+  todo: Todo
+  changeTodo: any
+  resetLiClassName: any
+}
+
+const EditInput: React.FC<any> = (props: Props) => {
   const [value, setValue] = useState(get(props, 'todo.text', ''))
 
   const onBlur = () => {
@@ -20,7 +27,7 @@ const EditInput = props => {
     resetLiClassName()
   }
 
-  const onKeyPress = e => {
+  const onKeyPress = (e: any) => {
     if (e.key === 'Enter') {
       onBlur()
     }

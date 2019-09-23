@@ -3,8 +3,14 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { handleFilters } from '../../../actions/todoActions'
+import { Filters } from '../../../types'
 
-const Filters = props => {
+interface Props {
+  filters: Filters
+  handleFilters: any
+}
+
+const FiltersComponent: React.FC<any> = (props: Props) => {
   const { filters, handleFilters } = props
 
   return (
@@ -26,8 +32,8 @@ const Filters = props => {
 }
 
 export default connect(
-  state => ({
+  (state: any) => ({
     filters: state.filters,
   }),
   dispatch => bindActionCreators({ handleFilters }, dispatch)
-)(Filters)
+)(FiltersComponent)

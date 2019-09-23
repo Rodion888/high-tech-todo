@@ -3,8 +3,14 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { toggleTodo } from '../../../actions/todoActions'
+import { Todo } from '../../../types'
 
-const ToggleTodo = props => {
+interface Props {
+  todo: Todo
+  toggleTodo: any
+}
+
+const ToggleTodo: React.FC<any> = (props: Props) => {
   const { todo, toggleTodo } = props
   const todoId = todo.id
 

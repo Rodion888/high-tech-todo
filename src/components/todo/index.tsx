@@ -12,8 +12,17 @@ import auth from '../Auth/index'
 import Header from './todoComponents/Header'
 import VisibleTodoList from './todoComponents/VisibleTodoList'
 import Footer from './todoComponents/Footer'
+import { Todos } from '../../types/index'
 
-const TodoMain = props => {
+interface Props {
+  todos: Todos
+  toggleAllTodos: any
+  history: any
+  addUserId: any
+  fetchTodos: any
+}
+
+const TodoMain: React.FC<Props> = props => {
   const { todos, toggleAllTodos, history, addUserId, fetchTodos } = props
 
   useEffect(() => {
@@ -52,7 +61,7 @@ const TodoMain = props => {
 }
 
 export default connect(
-  state => ({
+  (state: any) => ({
     todos: state.todos,
   }),
   dispatch =>
